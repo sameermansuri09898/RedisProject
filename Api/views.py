@@ -5,8 +5,10 @@ from rest_framework import viewsets
 from .studentserializer import stuserializer
 from .models import student
 from django.core.cache import cache
+from .rate_limiting import rate_limits
 
 class studentview(APIView):
+  @rate_limits(10,60)
   def post(self,request):
     serializer=stuserializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -17,6 +19,7 @@ class studentview(APIView):
     })
 
 class studentget(APIView):
+    @rate_limits(5,60)
     def get(self, request):
         set_key = 'cached-student'
 
