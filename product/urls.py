@@ -2,5 +2,5 @@ from django.urls import path
 from .views import result
 
 urlpatterns=[
-  path
+  path('user/',result.as_view())
 ]
